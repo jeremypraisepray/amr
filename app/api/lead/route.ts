@@ -95,6 +95,18 @@ export async function POST(req: NextRequest) {
   const offers = Array.isArray(body.offers) ? body.offers.filter((o) => typeof o === 'string') : [];
   const urgentLeak = body.urgentLeak === true || concern === 'Active leak or water stain';
 
+  // First-touch marketing attribution, captured client-side (lib/attribution.ts).
+  // Never required — a lead still goes through if the browser sent nothing.
+  const leadSource = str(body.lead_source) || 'organic-direct';
+  const utmSource = str(body.utm_source);
+  const utmMedium = str(body.utm_medium);
+  const utmCampaign = str(body.utm_campaign);
+  const utmContent = str(body.utm_content);
+  const utmTerm = str(body.utm_term);
+  const landingPage = str(body.landing_page);
+  const clickId = str(body.click_id);
+  const referrer = str(body.referrer);
+
   if (!first) return bad('Please enter your first name.');
   if (!last) return bad('Please enter your last name.');
   if (phoneRaw.replace(/\D/g, '').length < 10) return bad('Please enter a valid mobile phone number.');
@@ -119,6 +131,17 @@ export async function POST(req: NextRequest) {
     offerInterests: offers.join(', '),
     urgentLeak,
     source: 'Free Inspection Funnel',
+
+    // Attribution — maps to the existing utm_* fields on the GHL inbound webhook.
+    lead_source: leadSource,
+    utm_source: utmSource,
+    utm_medium: utmMedium,
+    utm_campaign: utmCampaign,
+    utm_content: utmContent,
+    utm_term: utmTerm,
+    landing_page: landingPage,
+    click_id: clickId,
+    referrer,
   };
 
   // 6) Forward to GoHighLevel

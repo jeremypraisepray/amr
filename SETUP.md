@@ -64,11 +64,34 @@ The route POSTs this JSON shape to the webhook:
   "firstName": "...", "lastName": "...", "phone": "+1XXXXXXXXXX", "email": "...",
   "address1": "...", "city": "...", "postalCode": "...", "state": "TX",
   "concern": "...", "timing": "...", "offerInterests": "a, b, c",
-  "urgentLeak": true, "source": "Free Inspection Funnel"
+  "urgentLeak": true, "source": "Free Inspection Funnel",
+  "lead_source": "meta-landing-page", "utm_source": "meta", "utm_medium": "...",
+  "utm_campaign": "...", "utm_content": "...", "utm_term": "...",
+  "landing_page": "https://.../", "click_id": "...", "referrer": "..."
 }
 ```
 
 > Phone is normalized to E.164 (`+1XXXXXXXXXX`) server-side before it is sent.
+
+### Attribution fields
+
+`lead_source` and the `utm_*` fields come from first-touch attribution captured in
+the browser (`lib/attribution.ts`) and stored in localStorage for 90 days — a
+visitor who first arrives from Meta stays attributed to Meta even if they return
+directly or via another campaign later.
+
+`lead_source` is derived from `utm_source` using this vocabulary:
+
+| `utm_source`         | `lead_source`         |
+| -------------------- | --------------------- |
+| `meta`, `facebook`   | `meta-landing-page`   |
+| `tiktok`             | `tiktok-landing-page` |
+| `google`             | `google-landing-page` |
+| anything else / none | `organic-direct`      |
+
+`click_id` holds the first of `fbclid`, `ttclid`, `gclid`, or `msclkid` present on
+the landing URL. `landing_page` is the page URL with the query string stripped, and
+`referrer` is the original external `document.referrer` (self-referrals ignored).
 
 **Option B (API v2 direct upsert)** is documented in the design handoff. If you
 prefer it, swap the webhook `fetch` in `app/api/lead/route.ts` for a call to

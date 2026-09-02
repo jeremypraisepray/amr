@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
 import Image from 'next/image';
+import { captureAttribution, EMPTY_ATTRIBUTION } from '@/lib/attribution';
+import type { Attribution } from '@/lib/attribution';
 
 /* ---------------------------------------------------------------------------
    AMR Free Roof Inspection Funnel
@@ -39,6 +41,7 @@ type State = {
   phone: string;
   email: string;
   company: string; // honeypot — never persisted, never shown
+  attribution: Attribution; // first-touch marketing attribution (see lib/attribution.ts)
   error: string;
   submitting: boolean;
 };
@@ -57,6 +60,7 @@ const INITIAL: State = {
   phone: '',
   email: '',
   company: '',
+  attribution: EMPTY_ATTRIBUTION,
   error: '',
   submitting: false,
 };
@@ -186,6 +190,14 @@ export default function Funnel() {
     }
   }, []);
 
+  // Capture first-touch marketing attribution on mount (client-only: reads the
+  // landing-page URL + localStorage). Kept out of the draft so it survives a
+  // completed submission and its own 90-day window.
+  useEffect(() => {
+    const attribution = captureAttribution();
+    setS((prev) => ({ ...prev, attribution }));
+  }, []);
+
   const activeIdx = s.submitted ? 6 : s.screen;
   const urgent = s.concern === 'Active leak or water stain';
 
@@ -239,6 +251,8 @@ export default function Funnel() {
           offers: s.offers,
           urgentLeak: urgent,
           company: s.company, // honeypot
+          // First-touch attribution — forwarded to the GHL webhook by /api/lead.
+          ...s.attribution,
         }),
       });
       if (res.ok) {
@@ -861,6 +875,12 @@ export default function Funnel() {
                       onChange={(e) => setS((prev) => ({ ...prev, company: e.target.value }))}
                     />
                   </div>
+
+                  {/* First-touch attribution — populated on mount from the landing-page
+                      URL (see lib/attribution.ts) and sent with the submit payload. */}
+                  {(Object.keys(s.attribution) as (keyof Attribution)[]).map((k) => (
+                    <input key={k} type="hidden" name={k} value={s.attribution[k]} readOnly />
+                  ))}
 
                   <div style={{ display: 'flex', gap: '8px' }}>
                     <div style={{ flex: 1, minWidth: 0 }}>

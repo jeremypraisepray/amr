@@ -1112,15 +1112,28 @@ export default function Funnel() {
                   }}
                 >
                   <div
+                    className="amr-book-badge"
                     style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '9px',
+                      background: '#d7222b',
+                      color: '#ffffff',
+                      borderRadius: 999,
+                      padding: '9px 16px',
+                      marginBottom: '12px',
                       fontFamily: FONT_MONO,
-                      fontSize: '11.5px',
-                      letterSpacing: '0.12em',
-                      color: '#d7222b',
-                      marginBottom: '6px',
+                      fontSize: '12px',
+                      fontWeight: 700,
+                      letterSpacing: '0.1em',
+                      textTransform: 'uppercase',
+                      lineHeight: 1,
                     }}
                   >
-                    BOOK SOONER, SAVE MORE
+                    Book yourself &mdash; click below
+                    <span aria-hidden="true" style={{ fontSize: '14px', lineHeight: 1 }}>
+                      &darr;
+                    </span>
                   </div>
                   <h3
                     style={{

@@ -29,8 +29,7 @@ const KEN_BURNS = true;
 // Self-booking (GHL calendar widget) shown on the confirmation screen.
 const BOOKING_URL = 'https://api.leadconnectorhq.com/widget/booking/hVG6Srpl2MIyc8x4I4H3';
 const BOOKING_TIERS: { when: string; off: string; lead?: boolean }[] = [
-  { when: 'Same-day inspection', off: '20% off', lead: true },
-  { when: 'Next-day inspection', off: '10% off' },
+  { when: 'Same-day or next-day inspection', off: '7% off', lead: true },
   { when: 'Any later date', off: '5% off' },
 ];
 

@@ -67,7 +67,10 @@ The route POSTs this JSON shape to the webhook:
   "urgentLeak": true, "source": "Free Inspection Funnel",
   "lead_source": "meta-landing-page", "utm_source": "meta", "utm_medium": "...",
   "utm_campaign": "...", "utm_content": "...", "utm_term": "...",
-  "landing_page": "https://.../", "click_id": "...", "referrer": "..."
+  "landing_page": "https://.../", "click_id": "...", "referrer": "...",
+  "last_lead_source": "google-landing-page", "last_utm_source": "google",
+  "last_utm_medium": "...", "last_utm_campaign": "...", "last_utm_content": "...",
+  "last_utm_term": "...", "last_click_id": "..."
 }
 ```
 
@@ -75,12 +78,24 @@ The route POSTs this JSON shape to the webhook:
 
 ### Attribution fields
 
-`lead_source` and the `utm_*` fields come from first-touch attribution captured in
-the browser (`lib/attribution.ts`) and stored in localStorage for 90 days — a
-visitor who first arrives from Meta stays attributed to Meta even if they return
-directly or via another campaign later.
+Attribution is captured in the browser (`lib/attribution.ts`) and stored in
+localStorage for 90 days. Both ends of the journey are sent:
 
-`lead_source` is derived from `utm_source` using this vocabulary:
+| Fields                          | Meaning                                                              |
+| ------------------------------- | -------------------------------------------------------------------- |
+| `lead_source`, `utm_*`          | **First touch** — the campaign that introduced this visitor. Written once and never overwritten inside the 90-day window. |
+| `last_lead_source`, `last_utm_*`, `last_click_id` | **Last touch** — the most recent campaign click. Advances whenever the visitor arrives with a `utm_*` param or a click ID. |
+
+A direct return is not a touch, so it leaves both alone. On a single-visit lead
+the two are identical (the server falls back to the first-touch value so the
+`last_*` fields are never blank).
+
+Example: lands from Meta in March, returns from a Google ad in May, books →
+`utm_source: meta` and `last_utm_source: google`. Report on the first set to
+judge which channel finds homeowners, the second to judge which ad closes them.
+
+Both `lead_source` and `last_lead_source` are derived from their `utm_source`
+using this vocabulary:
 
 | `utm_source`         | `lead_source`         |
 | -------------------- | --------------------- |
@@ -92,6 +107,24 @@ directly or via another campaign later.
 `click_id` holds the first of `fbclid`, `ttclid`, `gclid`, or `msclkid` present on
 the landing URL. `landing_page` is the page URL with the query string stripped, and
 `referrer` is the original external `document.referrer` (self-referrals ignored).
+`landing_page` and `referrer` are first-touch only.
+
+---
+
+## Confirmation screen: self-booking
+
+After a successful submission the confirmation screen shows a booking-incentive
+block (20% / 10% / 5% off a full roof replacement for same-day / next-day / later
+inspections) above an embedded GoHighLevel calendar.
+
+The calendar URL lives in `BOOKING_URL` at the top of `components/Funnel.tsx`. It
+is embedded in an iframe and auto-sized by GHL's `form_embed.js`; a
+"Calendar not loading?" link below it opens the same scheduler in a new tab if
+the embed is blocked. The lead's name, email, and phone are appended as query
+params so they don't have to retype them.
+
+The discount tiers are the `BOOKING_TIERS` array in the same file — edit the
+percentages there.
 
 **Option B (API v2 direct upsert)** is documented in the design handoff. If you
 prefer it, swap the webhook `fetch` in `app/api/lead/route.ts` for a call to

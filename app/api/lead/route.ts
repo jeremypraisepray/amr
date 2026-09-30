@@ -95,8 +95,10 @@ export async function POST(req: NextRequest) {
   const offers = Array.isArray(body.offers) ? body.offers.filter((o) => typeof o === 'string') : [];
   const urgentLeak = body.urgentLeak === true || concern === 'Active leak or water stain';
 
-  // First-touch marketing attribution, captured client-side (lib/attribution.ts).
-  // Never required — a lead still goes through if the browser sent nothing.
+  // Marketing attribution, captured client-side (lib/attribution.ts): the
+  // unprefixed fields are the FIRST touch, the last_* fields the most recent
+  // campaign click. Never required — a lead still goes through if the browser
+  // sent nothing.
   const leadSource = str(body.lead_source) || 'organic-direct';
   const utmSource = str(body.utm_source);
   const utmMedium = str(body.utm_medium);
@@ -106,6 +108,16 @@ export async function POST(req: NextRequest) {
   const landingPage = str(body.landing_page);
   const clickId = str(body.click_id);
   const referrer = str(body.referrer);
+
+  // Last touch falls back to the first-touch value when the browser sent none,
+  // so GHL never sees a blank last_* field on a single-visit lead.
+  const lastLeadSource = str(body.last_lead_source) || leadSource;
+  const lastUtmSource = str(body.last_utm_source) || utmSource;
+  const lastUtmMedium = str(body.last_utm_medium) || utmMedium;
+  const lastUtmCampaign = str(body.last_utm_campaign) || utmCampaign;
+  const lastUtmContent = str(body.last_utm_content) || utmContent;
+  const lastUtmTerm = str(body.last_utm_term) || utmTerm;
+  const lastClickId = str(body.last_click_id) || clickId;
 
   if (!first) return bad('Please enter your first name.');
   if (!last) return bad('Please enter your last name.');
@@ -132,7 +144,7 @@ export async function POST(req: NextRequest) {
     urgentLeak,
     source: 'Free Inspection Funnel',
 
-    // Attribution — maps to the existing utm_* fields on the GHL inbound webhook.
+    // First touch — maps to the existing utm_* fields on the GHL inbound webhook.
     lead_source: leadSource,
     utm_source: utmSource,
     utm_medium: utmMedium,
@@ -142,6 +154,15 @@ export async function POST(req: NextRequest) {
     landing_page: landingPage,
     click_id: clickId,
     referrer,
+
+    // Last touch — the most recent campaign click before this submission.
+    last_lead_source: lastLeadSource,
+    last_utm_source: lastUtmSource,
+    last_utm_medium: lastUtmMedium,
+    last_utm_campaign: lastUtmCampaign,
+    last_utm_content: lastUtmContent,
+    last_utm_term: lastUtmTerm,
+    last_click_id: lastClickId,
   };
 
   // 6) Forward to GoHighLevel

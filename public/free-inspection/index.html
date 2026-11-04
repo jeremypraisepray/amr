@@ -84,6 +84,8 @@ button,input{font:inherit;color:inherit}
 .faces img:first-child{margin-left:0}
 .f{position:relative;margin-bottom:7px}
 .pair{display:grid;grid-template-columns:1fr 118px;gap:7px}
+.pair.two{grid-template-columns:1fr 1fr}
+.pair .f input{padding-left:40px}.pair .f label{left:40px}.pair .f svg{left:12px}
 .f input{width:100%;height:48px;border-radius:12px;border:1.5px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);padding:19px 14px 5px 44px;font-size:16px;font-weight:600;outline:none;transition:border .2s,background .2s}
 .f input:focus{border-color:#fff;background:rgba(255,255,255,.1)}
 .f.err input{border-color:var(--red);animation:shake .35s}
@@ -291,15 +293,22 @@ body.book .drawer{transform:none}
       <input type="text" name="company" id="company" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
       <p class="formerr" id="formErr" role="alert" hidden></p>
       <h2><span class="faces"><img src="/free-inspection/img/p2.webp" alt=""><img src="/free-inspection/img/n6.webp" alt=""><img src="/free-inspection/img/p1.webp" alt=""></span><span><b>Free inspection</b> · 30 seconds</span></h2>
-      <div class="f">
-        <input id="name" name="name" autocomplete="name" placeholder=" " required enterkeyhint="next">
-        <label for="name">Full name</label>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+      <div class="pair two">
+        <div class="f">
+          <input id="name" name="name" autocomplete="name" placeholder=" " required enterkeyhint="next">
+          <label for="name">Full name</label>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+        </div>
+        <div class="f">
+          <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder=" " required enterkeyhint="next">
+          <label for="phone">Mobile phone</label>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
+        </div>
       </div>
       <div class="f">
-        <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder=" " required enterkeyhint="next">
-        <label for="phone">Mobile phone</label>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
+        <input id="email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder=" " required enterkeyhint="next">
+        <label for="email">Email</label>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
       </div>
       <div class="f">
         <input id="addr" name="address" autocomplete="address-line1" placeholder=" " required enterkeyhint="next">
@@ -465,6 +474,7 @@ phone.addEventListener('input', ()=>{
 const rules = {
   name: v => v.trim().length >= 2,
   phone: v => v.replace(/\D/g,'').length === 10,
+  email: v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()),
   addr: v => v.trim().length >= 4,
   city: v => v.trim().length >= 2,
   zip: v => /^\d{5}$/.test(v.trim())
@@ -476,7 +486,8 @@ for (const id in rules){
   el.addEventListener('blur', ()=>setTimeout(()=>{ if(!document.activeElement.matches('input')) document.body.classList.remove('typing') },50));
 }
 $('#name').addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); phone.focus(); } });
-phone.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); $('#addr').focus(); } });
+phone.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); $('#email').focus(); } });
+$('#email').addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); $('#addr').focus(); } });
 $('#addr').addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); $('#city').focus(); } });
 $('#city').addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); $('#zip').focus(); } });
 $('#zip').addEventListener('input', e=>{ e.target.value=e.target.value.replace(/\D/g,'').slice(0,5); });
@@ -490,7 +501,7 @@ $('#leadForm').addEventListener('submit', async e=>{
   const full = $('#name').value.trim().replace(/\s+/g,' ');
   const lead = {
     name: full, first_name: full.split(' ')[0], last_name: full.split(' ').slice(1).join(' '),
-    phone: $('#phone').value, address: $('#addr').value.trim(), city: $('#city').value.trim(), postal_code: $('#zip').value.trim(), state: 'TX',
+    phone: $('#phone').value, email: $('#email').value.trim(), address: $('#addr').value.trim(), city: $('#city').value.trim(), postal_code: $('#zip').value.trim(), state: 'TX',
     source: 'mobile-inspection-funnel-v2', ts: Date.now(),
     code: 'AMR-' + Math.random().toString(36).slice(2,6).toUpperCase(),
     utm: Object.fromEntries(new URLSearchParams(location.search))
@@ -500,7 +511,7 @@ $('#leadForm').addEventListener('submit', async e=>{
     try{
       const res = await fetch(CONFIG.LEAD_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
         funnel:'mobile-v2', company:$('#company').value,
-        first:lead.first_name, last:lead.last_name, phone:lead.phone,
+        first:lead.first_name, last:lead.last_name, phone:lead.phone, email:lead.email,
         address:lead.address, city:lead.city, zip:lead.postal_code,
         concern:'', timing:'', offers:[], selfBookCode: lead.code,
         utm: lead.utm
@@ -610,7 +621,7 @@ function confetti(x,y){
 function prepBooking(lead){
   const db = $('#db');
   if (LIVE_EMBED){
-    const q = new URLSearchParams({first_name:lead.first_name||'', last_name:lead.last_name||'', phone:(lead.phone||'').replace(/\D/g,''), address:lead.address||'', city:lead.city||'', state:'TX', postal_code:lead.postal_code||''});
+    const q = new URLSearchParams({first_name:lead.first_name||'', last_name:lead.last_name||'', phone:(lead.phone||'').replace(/\D/g,''), email:lead.email||'', address:lead.address||'', city:lead.city||'', state:'TX', postal_code:lead.postal_code||''});
     db.innerHTML = `<iframe src="${CONFIG.BOOKING_URL}?${q}" allow="payment" scrolling="no" id="hVG6Srpl2MIyc8x4I4H3_${Date.now()}" title="Book your free roof inspection"></iframe>`;
     const s = document.createElement('script'); s.src = CONFIG.BOOKING_SCRIPT; s.async = true; document.body.appendChild(s);
   } else {

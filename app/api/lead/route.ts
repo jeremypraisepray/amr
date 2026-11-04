@@ -95,8 +95,8 @@ export async function POST(req: NextRequest) {
   const offers = Array.isArray(body.offers) ? body.offers.filter((o) => typeof o === 'string') : [];
   const urgentLeak = body.urgentLeak === true || concern === 'Active leak or water stain';
 
-  // The mobile v2 funnel (/free-inspection) collects a single full-name field and no
-  // email, so last name + email are optional for it. The original funnel is unchanged.
+  // The mobile v2 funnel (/free-inspection) collects a single full-name field, so last
+  // name is optional for it. The original funnel is unchanged.
   const isV2 = str(body.funnel) === 'mobile-v2';
   const selfBookCode = str(body.selfBookCode).slice(0, 20);
   const utm =
@@ -111,8 +111,7 @@ export async function POST(req: NextRequest) {
   if (!first) return bad('Please enter your first name.');
   if (!isV2 && !last) return bad('Please enter your last name.');
   if (phoneRaw.replace(/\D/g, '').length < 10) return bad('Please enter a valid mobile phone number.');
-  if (!isV2 && !EMAIL_RE.test(email)) return bad('Please enter a valid email address.');
-  if (isV2 && email && !EMAIL_RE.test(email)) return bad('Please enter a valid email address.');
+  if (!EMAIL_RE.test(email)) return bad('Please enter a valid email address.');
   if (isV2 && city.length < 2) return bad('Please enter your city.');
   if (address.length < 5) return bad('Please enter your street address.');
   if (!/^\d{5}$/.test(zip)) return bad('Please enter a valid 5-digit ZIP code.');

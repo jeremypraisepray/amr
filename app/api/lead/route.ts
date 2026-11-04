@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { sendMetaLead } from '@/lib/metaLead';
 
 /* ---------------------------------------------------------------------------
    POST /api/lead
@@ -172,6 +173,10 @@ export async function POST(req: NextRequest) {
       { status: 502 },
     );
   }
+
+  // 7) Meta Conversions API Lead — only after the lead was forwarded successfully.
+  //    sendMetaLead never throws, so a Meta failure can't block the lead.
+  await sendMetaLead(body, req.headers);
 
   return NextResponse.json({ ok: true }, { status: 200 });
 }

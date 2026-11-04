@@ -7,6 +7,22 @@
 <title>Free Roof Inspection — American Master Roofing (Houston, TX)</title>
 <meta name="description" content="Free roof inspection in Houston. Every finding photographed, a straight answer, and $1,000 off when you book your own time.">
 <link rel="icon" href="/assets/logo.png">
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1326142483056853');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1326142483056853&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel Code -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
@@ -425,6 +441,21 @@ const LIVE_EMBED = !/claude|anthropic|claudeusercontent/i.test(location.hostname
 const THANKS_PATH = '/free-inspection/thank-you';
 
 /* ===================== helpers ===================== */
+function getCookie(name) {
+  const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+  return match ? decodeURIComponent(match[1]) : '';
+}
+function getFbc() {
+  const existing = getCookie('_fbc');
+  if (existing) return existing;
+  const fbclid = new URLSearchParams(location.search).get('fbclid');
+  return fbclid ? 'fb.1.' + Date.now() + '.' + fbclid : '';
+}
+function newEventId() {
+  try { if (crypto && crypto.randomUUID) return crypto.randomUUID(); } catch (e) {}
+  return 'ev-' + Date.now() + '-' + Math.random().toString(36).slice(2, 12);
+}
+let submitting = false; // double-submit guard
 const $ = s => document.querySelector(s);
 const store = {
   get(k){ try{ return JSON.parse(sessionStorage.getItem(k)) }catch(e){ return null } },
@@ -494,10 +525,11 @@ $('#zip').addEventListener('input', e=>{ e.target.value=e.target.value.replace(/
 
 $('#leadForm').addEventListener('submit', async e=>{
   e.preventDefault();
+  if (submitting) return;
   let bad = null;
   for (const id in rules){ const el=$('#'+id); if(!rules[id](el.value)){ el.parentNode.classList.remove('err'); void el.offsetWidth; el.parentNode.classList.add('err'); bad = bad || el; } }
   if (bad){ bad.focus(); return; }
-  const btn = $('#submitBtn'); btn.classList.add('busy');
+  const btn = $('#submitBtn'); btn.classList.add('busy'); submitting = true; btn.disabled = true;
   const full = $('#name').value.trim().replace(/\s+/g,' ');
   const lead = {
     name: full, first_name: full.split(' ')[0], last_name: full.split(' ').slice(1).join(' '),
@@ -509,17 +541,25 @@ $('#leadForm').addEventListener('submit', async e=>{
   const err = $('#formErr'); err.hidden = true;
   if (CONFIG.LEAD_WEBHOOK_URL){
     try{
+      const metaEventId = newEventId();
       const res = await fetch(CONFIG.LEAD_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
         funnel:'mobile-v2', company:$('#company').value,
         first:lead.first_name, last:lead.last_name, phone:lead.phone, email:lead.email,
         address:lead.address, city:lead.city, zip:lead.postal_code,
         concern:'', timing:'', offers:[], selfBookCode: lead.code,
-        utm: lead.utm
+        utm: lead.utm,
+        metaEventId,
+        fbp: getCookie('_fbp'),
+        fbc: getFbc(),
+        pageUrl: location.href
       })});
       const data = await res.json().catch(()=>({}));
       if (!res.ok || data.ok === false) throw new Error(data.error || 'Something went wrong sending your request.');
+      if (LIVE_EMBED && window.fbq) {
+        fbq('track', 'Lead', { content_name: 'Free Roof Inspection' }, { eventID: metaEventId });
+      }
     }catch(ex){
-      btn.classList.remove('busy');
+      btn.classList.remove('busy'); submitting = false; btn.disabled = false;
       err.innerHTML = (ex.message || 'Something went wrong.') + ' Or call <a href="tel:+13466803564">(346) 680-3564</a>.';
       err.hidden = false; return;
     }

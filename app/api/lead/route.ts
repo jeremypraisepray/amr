@@ -95,10 +95,25 @@ export async function POST(req: NextRequest) {
   const offers = Array.isArray(body.offers) ? body.offers.filter((o) => typeof o === 'string') : [];
   const urgentLeak = body.urgentLeak === true || concern === 'Active leak or water stain';
 
+  // The mobile v2 funnel (/free-inspection) collects a single full-name field and no
+  // email, so last name + email are optional for it. The original funnel is unchanged.
+  const isV2 = str(body.funnel) === 'mobile-v2';
+  const selfBookCode = str(body.selfBookCode).slice(0, 20);
+  const utm =
+    body.utm && typeof body.utm === 'object'
+      ? Object.fromEntries(
+          Object.entries(body.utm as Record<string, unknown>)
+            .filter(([k, v]) => /^utm_|^fbclid$|^gclid$/.test(k) && typeof v === 'string')
+            .map(([k, v]) => [k, String(v).slice(0, 200)]),
+        )
+      : {};
+
   if (!first) return bad('Please enter your first name.');
-  if (!last) return bad('Please enter your last name.');
+  if (!isV2 && !last) return bad('Please enter your last name.');
   if (phoneRaw.replace(/\D/g, '').length < 10) return bad('Please enter a valid mobile phone number.');
-  if (!EMAIL_RE.test(email)) return bad('Please enter a valid email address.');
+  if (!isV2 && !EMAIL_RE.test(email)) return bad('Please enter a valid email address.');
+  if (isV2 && email && !EMAIL_RE.test(email)) return bad('Please enter a valid email address.');
+  if (isV2 && city.length < 2) return bad('Please enter your city.');
   if (address.length < 5) return bad('Please enter your street address.');
   if (!/^\d{5}$/.test(zip)) return bad('Please enter a valid 5-digit ZIP code.');
 
@@ -118,7 +133,8 @@ export async function POST(req: NextRequest) {
     timing,
     offerInterests: offers.join(', '),
     urgentLeak,
-    source: 'Free Inspection Funnel',
+    source: isV2 ? 'Mobile Inspection Funnel v2' : 'Free Inspection Funnel',
+    ...(isV2 ? { funnel: 'mobile-v2', selfBookOffer: '$1,000 off — self-book', selfBookCode, ...utm } : {}),
   };
 
   // 6) Forward to GoHighLevel

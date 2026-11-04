@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f1a3d">
+<title>Free Roof Inspection — American Master Roofing (Houston, TX)</title>
+<meta name="description" content="Free roof inspection in Houston. Every finding photographed, a straight answer, and $1,000 off when you book your own time.">
+<link rel="icon" href="/assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1b2a5b; --navy-d:#0f1a3d; --navy-dd:#08102a;
+  --red:#e30613; --red-d:#b8040f;
+  --ink:#0b1024; --paper:#fff; --mute:#8a93b2; --line:rgba(255,255,255,.12);
+  --gold:#f5c542;
+  --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--navy-dd);color:#fff;font-family:'Archivo',system-ui,sans-serif;font-stretch:100%;-webkit-font-smoothing:antialiased;overflow:hidden}
+button,input{font:inherit;color:inherit}
+.view{position:fixed;inset:0;display:flex;flex-direction:column;height:100dvh;overflow:hidden}
+.view[hidden]{display:none}
+.cond{font-stretch:72%;letter-spacing:-.01em}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* ============ LANDING ============ */
+.stage{position:relative;flex:1 1 auto;min-height:150px;overflow:hidden;background:#111}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity .9s ease}
+.slide.on{opacity:1}
+.slide img{width:100%;height:100%;object-fit:cover;transform:scale(1.08);transform-origin:var(--o,50% 50%)}
+.slide.on img{animation:kb 6.2s ease-out forwards}
+@keyframes kb{from{transform:scale(1.02)}to{transform:scale(1.14)}}
+.stage::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(8,16,42,.75) 0%,rgba(8,16,42,0) 26%,rgba(8,16,42,0) 45%,rgba(8,16,42,.92) 100%)}
+.bars{position:absolute;z-index:5;top:calc(var(--sat) + 8px);left:12px;right:12px;display:flex;gap:4px}
+.bars i{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.3);overflow:hidden}
+.bars i b{display:block;height:100%;width:0;background:#fff}
+.bars i.done b{width:100%}
+.bars i.on b{animation:fill 6s linear forwards}
+@keyframes fill{to{width:100%}}
+.top{position:absolute;z-index:6;top:calc(var(--sat) + 20px);left:12px;right:12px;display:flex;align-items:center;justify-content:space-between}
+.logo{background:#fff;border-radius:12px;padding:7px 11px;box-shadow:0 6px 20px rgba(0,0,0,.25);display:flex}
+.logo img{height:30px;width:auto;display:block}
+.call{display:flex;align-items:center;gap:7px;background:rgba(8,16,42,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.22);padding:9px 13px;border-radius:999px;font-weight:700;font-size:13px;text-decoration:none;color:#fff}
+.call svg{width:15px;height:15px}
+.tap{position:absolute;z-index:4;top:0;bottom:0;width:35%;background:transparent;border:0;cursor:pointer}
+.tap.l{left:0}.tap.r{right:0}
+.cap{position:absolute;z-index:5;left:16px;right:108px;bottom:14px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;background:var(--red);padding:5px 9px 5px 7px;border-radius:5px;margin-bottom:9px}
+.chip .dot{width:6px;height:6px;border-radius:50%;background:#fff;animation:blink 1.4s infinite}
+@keyframes blink{50%{opacity:.25}}
+.cap h1{font-size:clamp(27px,8.4vw,40px);line-height:.95;font-weight:900;font-stretch:75%;text-transform:uppercase;letter-spacing:-.005em;text-shadow:0 2px 20px rgba(0,0,0,.4)}
+.cap h1 em{font-style:normal;color:var(--red);background:#fff;padding:0 .12em;margin-left:-.04em;display:inline-block;transform:skewX(-6deg)}
+.cap h1 em span{display:inline-block;transform:skewX(6deg)}
+.cap p{margin-top:7px;font-size:13px;color:rgba(255,255,255,.85);font-weight:500}
+
+/* seal */
+.seal{position:absolute;z-index:7;right:12px;top:-62px;width:86px;height:86px;border-radius:50%;background:var(--red);display:grid;place-items:center;box-shadow:0 10px 30px rgba(227,6,19,.45),0 0 0 4px var(--navy-d)}
+.seal svg.ring{position:absolute;inset:0;width:100%;height:100%;animation:spin 18s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.seal .c{text-align:center;line-height:.85;font-stretch:70%}
+.seal .c b{display:block;font-size:27px;font-weight:900}
+.seal .c small{font-size:9px;font-weight:800;letter-spacing:.12em}
+
+/* ticker */
+.rail{position:relative;z-index:6;display:flex;flex-direction:column}
+.ticker{position:relative;z-index:3;background:var(--navy);border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;white-space:nowrap;padding:8px 0;flex:0 0 auto}
+.ticker .track{display:inline-flex;gap:26px;padding-right:26px;animation:tick 26s linear infinite}
+@keyframes tick{to{transform:translateX(-50%)}}
+.ticker span{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#dfe4f5}
+.ticker span svg{width:13px;height:13px;flex:0 0 auto}
+.ticker .stars{color:var(--gold);letter-spacing:1px}
+
+/* sheet / form */
+.sheet{flex:0 0 auto;background:var(--navy-d);padding:14px 16px calc(var(--sab) + 12px);position:relative}
+.sheet h2{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);font-weight:800;margin-bottom:10px;padding-right:90px}
+.sheet h2 b{color:#fff}
+.sheet h2{display:flex;align-items:center;gap:9px;white-space:nowrap;font-size:11.5px;letter-spacing:.12em;padding-right:0}
+.faces{display:flex}
+.faces img{width:26px;height:26px;border-radius:50%;object-fit:cover;object-position:50% 22%;border:2px solid var(--navy-d);margin-left:-8px}
+.faces img:first-child{margin-left:0}
+.f{position:relative;margin-bottom:7px}
+.pair{display:grid;grid-template-columns:1fr 118px;gap:7px}
+.f input{width:100%;height:48px;border-radius:12px;border:1.5px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);padding:19px 14px 5px 44px;font-size:16px;font-weight:600;outline:none;transition:border .2s,background .2s}
+.f input:focus{border-color:#fff;background:rgba(255,255,255,.1)}
+.f.err input{border-color:var(--red);animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.f label{position:absolute;left:44px;top:14px;font-size:15px;color:var(--mute);pointer-events:none;transition:all .18s;font-weight:500}
+.f input:focus+label,.f input:not(:placeholder-shown)+label{top:7px;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:#aab3d4}
+.f svg{position:absolute;left:14px;top:14px;width:19px;height:19px;color:var(--mute)}
+.f.ok svg{color:#4ade80}
+.cta{position:relative;width:100%;height:56px;border:0;border-radius:14px;background:var(--red);font-weight:900;font-size:18px;font-stretch:80%;letter-spacing:.02em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;overflow:hidden;box-shadow:0 10px 30px -8px rgba(227,6,19,.6);margin-top:4px;transition:transform .1s}
+.cta:active{transform:scale(.98)}
+.cta::before{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);animation:shine 3.2s infinite}
+@keyframes shine{0%,60%{left:-60%}100%{left:130%}}
+.cta svg{width:20px;height:20px}
+.cta .spin{width:22px;height:22px;border:3px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
+.cta.busy .lbl,.cta.busy .arr{display:none}.cta.busy .spin{display:block}
+.formerr{background:rgba(227,6,19,.15);border:1px solid rgba(227,6,19,.6);color:#ffd5d8;font-size:12.5px;font-weight:600;border-radius:10px;padding:8px 10px;margin-bottom:8px}
+.formerr a{color:#fff;font-weight:800}
+.micro{display:flex;justify-content:center;gap:14px;margin-top:9px;font-size:11.5px;color:var(--mute);font-weight:600}
+.micro span{display:inline-flex;align-items:center;gap:5px}
+.micro svg{width:12px;height:12px;color:#4ade80}
+body.typing .cap p,body.typing .chip{display:none}
+body.typing .seal{transform:scale(.72);transform-origin:100% 0}
+
+/* ============ CONFIRMATION ============ */
+#confirmed{background:radial-gradient(120% 80% at 50% 0%,#1d2d63 0%,var(--navy-d) 55%,var(--navy-dd) 100%)}
+.wall{position:relative;flex:0 0 31%;min-height:150px;overflow:hidden}
+.wall .rows{position:absolute;inset:-30px -60px;transform:rotate(-5deg);display:flex;flex-direction:column;gap:8px}
+.row{display:flex;gap:8px;width:max-content;animation:mq 40s linear infinite}
+.row.rev{animation-direction:reverse;animation-duration:46s}
+@keyframes mq{to{transform:translateX(-50%)}}
+.row img{height:calc((31dvh + 60px)/2 - 4px);min-height:94px;width:auto;border-radius:10px;object-fit:cover;aspect-ratio:4/3;filter:saturate(1.05)}
+.row img.p{aspect-ratio:3/4}
+.wall::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,16,42,.55) 0%,rgba(8,16,42,.05) 35%,rgba(15,26,61,.6) 75%,var(--navy-d) 100%)}
+.ctop{position:absolute;z-index:3;top:calc(var(--sat) + 12px);left:12px;right:12px;display:flex;justify-content:space-between;align-items:center}
+.ok-pill{display:flex;align-items:center;gap:7px;background:rgba(74,222,128,.16);border:1px solid rgba(74,222,128,.5);color:#bbf7d0;font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:7px 11px;border-radius:999px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.ok-pill svg{width:14px;height:14px}
+.cbody{flex:1 1 auto;display:flex;flex-direction:column;padding:0 16px calc(var(--sab) + 12px);min-height:0;margin-top:-26px;position:relative;z-index:2}
+.hello{font-size:clamp(30px,9.6vw,44px);font-weight:900;font-stretch:72%;text-transform:uppercase;line-height:.92}
+.hello .nm{color:var(--red);text-shadow:0 0 30px rgba(227,6,19,.35)}
+.sub{margin-top:8px;font-size:14px;line-height:1.38;color:#c9d0ea;font-weight:500}
+.sub b{color:#fff}
+
+.ticket{position:relative;margin:14px 0 12px;border-radius:18px;background:#fff;color:var(--ink);display:flex;overflow:hidden;box-shadow:0 20px 50px -12px rgba(0,0,0,.6);flex:0 0 auto;transform:rotate(-1.2deg)}
+.ticket .l{flex:1;padding:13px 14px 12px 16px;position:relative}
+.ticket .r{width:100px;background:var(--red);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;padding:8px}
+.ticket .r::before{content:"";position:absolute;left:-1px;top:8px;bottom:8px;border-left:2px dashed rgba(255,255,255,.7)}
+.ticket .notch{position:absolute;left:calc(100% - 100px - 9px);width:18px;height:18px;border-radius:50%;background:var(--navy-d)}
+.ticket .notch.t{top:-9px}.ticket .notch.b{bottom:-9px}
+.tk-k{font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--red)}
+.tk-amt{font-size:52px;font-weight:900;font-stretch:68%;line-height:.86;letter-spacing:-.02em;color:var(--navy);display:flex;align-items:flex-start;gap:2px;margin-top:3px}
+.tk-amt sup{font-size:24px;margin-top:5px}
+.tk-amt .off{font-size:22px;align-self:flex-end;margin-left:6px;color:var(--red);line-height:1}
+.tk-d{font-size:12px;font-weight:600;color:#4a5273;margin-top:5px}
+.tk-meta{display:flex;gap:10px;margin-top:7px;font-size:10.5px;font-weight:700;color:#6b7394;letter-spacing:.04em;text-transform:uppercase}
+.tk-meta b{color:var(--navy)}
+.ticket .r small{font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;opacity:.9}
+.ticket .r .cd{font-size:19px;font-variant-numeric:tabular-nums;font-weight:900;font-stretch:70%;line-height:1;margin:3px 0}
+.ticket .r .cd2{font-size:10px;font-weight:700;opacity:.9}
+#scratch{position:absolute;inset:0;z-index:3;touch-action:none;cursor:grab;transition:opacity .6s}
+#scratch.gone{opacity:0;pointer-events:none}
+.hint{position:absolute;z-index:4;left:16px;bottom:10px;font-size:11px;font-weight:800;color:var(--navy);letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;gap:6px;pointer-events:none;transition:opacity .3s}
+.hint svg{width:16px;height:16px;animation:wig 1.2s ease-in-out infinite}
+@keyframes wig{50%{transform:translateX(10px) rotate(8deg)}}
+.cta2{margin-top:0}
+.gets{flex:1 1 auto;min-height:0;overflow:hidden;display:flex;flex-direction:column;justify-content:safe center;gap:8px;padding:0 0 12px}
+.gets div{display:flex;align-items:center;gap:11px;font-size:13px;font-weight:600;color:#c9d0ea}
+.gets div b{color:#fff}
+.gets i{flex:0 0 30px;height:30px;border-radius:9px;background:rgba(255,255,255,.08);border:1px solid var(--line);display:grid;place-items:center;font-style:normal}
+.gets i svg{width:16px;height:16px}
+@media (max-height:800px){.gets div:nth-child(n+3){display:none}}
+@media (max-height:690px){.gets div:nth-child(n+2){display:none}}
+@media (max-height:620px){.gets{display:none}.cta2{margin-top:auto}}
+.cta2 .cta{height:60px;font-size:19px}
+.cta.pulse{animation:pulse 1.6s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(227,6,19,.6)}70%{box-shadow:0 0 0 16px rgba(227,6,19,0)}100%{box-shadow:0 0 0 0 rgba(227,6,19,0)}}
+.alt{display:flex;justify-content:space-between;align-items:center;margin-top:9px;font-size:12px;color:var(--mute);font-weight:600}
+.alt a{color:#fff;text-decoration:none;font-weight:800}
+.fine{font-size:10px;color:#6a7398;margin-top:6px;line-height:1.35}
+
+/* steps strip */
+.steps{display:flex;gap:6px;margin-bottom:12px}
+.steps div{flex:1;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);border-top:3px solid rgba(255,255,255,.15);padding-top:6px}
+.steps div.d{color:#86efac;border-color:#22c55e}
+.steps div.a{color:#fff;border-color:var(--red)}
+
+/* booking drawer */
+.scrim{position:fixed;inset:0;background:rgba(4,8,22,.6);opacity:0;pointer-events:none;transition:opacity .35s;z-index:40}
+.drawer{position:fixed;left:0;right:0;bottom:0;height:calc(100dvh - var(--sat) - 18px);background:#fff;color:var(--ink);border-radius:22px 22px 0 0;z-index:41;transform:translateY(102%);transition:transform .45s cubic-bezier(.2,.9,.25,1);display:flex;flex-direction:column;overflow:hidden}
+body.book .scrim{opacity:1;pointer-events:auto}
+body.book .drawer{transform:none}
+.dh{flex:0 0 auto;padding:10px 16px 12px;background:var(--navy);color:#fff;position:relative}
+.dh .grab{width:40px;height:4px;border-radius:4px;background:rgba(255,255,255,.35);margin:0 auto 10px}
+.dh .x{position:absolute;right:10px;top:14px;width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,.12);display:grid;place-items:center;cursor:pointer}
+.dh .x svg{width:16px;height:16px}
+.applied{display:flex;align-items:center;gap:10px}
+.applied .badge{background:var(--red);border-radius:8px;padding:6px 9px;font-weight:900;font-stretch:70%;font-size:20px;line-height:1}
+.applied b{display:block;font-size:14px}
+.applied small{font-size:11.5px;color:#b9c2e3;font-weight:600}
+.db{flex:1 1 auto;overflow:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--sab) + 12px)}
+.db iframe{width:100%;border:none;min-height:100%}
+
+/* preview calendar (stands in for the GHL widget in this preview only) */
+.mock{padding:16px}
+.mock .t{font-weight:900;font-size:19px;font-stretch:80%;text-transform:uppercase;color:var(--navy)}
+.mock .s{font-size:12.5px;color:#5b6385;margin-top:2px;font-weight:600}
+.days{display:flex;gap:7px;overflow-x:auto;margin:14px -16px 0;padding:0 16px 4px;scrollbar-width:none}
+.days::-webkit-scrollbar{display:none}
+.day{flex:0 0 58px;height:70px;border-radius:12px;border:1.5px solid #e3e6f0;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer}
+.day small{font-size:10.5px;font-weight:800;letter-spacing:.1em;color:#7b83a3;text-transform:uppercase}
+.day b{font-size:22px;font-weight:900;color:var(--navy);font-stretch:80%}
+.day.on{background:var(--navy);border-color:var(--navy)}
+.day.on small,.day.on b{color:#fff}
+.slots{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px}
+.slot{height:46px;border-radius:10px;border:1.5px solid #e3e6f0;background:#fff;font-weight:800;font-size:14px;color:var(--navy);cursor:pointer}
+.slot:disabled{color:#c6cad8;text-decoration:line-through;cursor:default;background:#f7f8fb}
+.slot.on{background:var(--red);border-color:var(--red);color:#fff}
+.mock .go{margin-top:16px}
+.mock .note{font-size:11px;color:#8a91ad;text-align:center;margin-top:10px}
+.booked{padding:34px 20px;text-align:center}
+.booked .big{width:74px;height:74px;border-radius:50%;background:#22c55e;display:grid;place-items:center;margin:0 auto 14px;animation:pop .5s cubic-bezier(.2,1.6,.4,1)}
+@keyframes pop{from{transform:scale(0)}}
+.booked .big svg{width:38px;height:38px;color:#fff}
+.booked h3{font-size:28px;font-weight:900;font-stretch:72%;text-transform:uppercase;color:var(--navy)}
+.booked p{color:#4a5273;font-size:14px;margin-top:6px;line-height:1.4}
+.booked .when{display:inline-block;margin-top:14px;background:#f1f3f9;border-radius:12px;padding:12px 16px;font-weight:800;color:var(--navy)}
+
+#fx{position:fixed;inset:0;pointer-events:none;z-index:60}
+
+/* transition wipe */
+.wipe{position:fixed;inset:0;z-index:50;background:var(--red);transform:translateY(100%);pointer-events:none}
+.wipe.go{animation:wipe 1s cubic-bezier(.7,0,.3,1) forwards}
+@keyframes wipe{0%{transform:translateY(100%)}45%,55%{transform:translateY(0)}100%{transform:translateY(-100%)}}
+.wipe img{position:absolute;left:50%;top:50%;width:200px;transform:translate(-50%,-50%);filter:brightness(0) invert(1)}
+
+/* entrance */
+.in{opacity:0;transform:translateY(14px);animation:up .6s cubic-bezier(.2,.9,.3,1) forwards}
+@keyframes up{to{opacity:1;transform:none}}
+
+/* short screens */
+@media (max-height:640px){
+  .cap p{display:none}.faces{display:none}.f input{height:44px}
+}
+@media (max-height:600px){
+  .cap p{display:none}.sheet h2{margin-bottom:7px}.f input{height:46px;padding-top:17px}.f label{top:13px}.f svg{top:13px}.micro{margin-top:6px}
+  .sub{font-size:13px}.tk-amt{font-size:44px}.steps{display:none}.fine{display:none}
+}
+@media (max-height:520px){ .view{overflow:auto}.stage{min-height:200px}.wall{flex-basis:160px} }
+
+/* desktop: split */
+@media (min-width:900px){
+  #landing{flex-direction:row}
+  .stage{flex:1}
+  .rail{width:460px;display:flex;flex-direction:column;justify-content:center;background:var(--navy-d)}
+  .ticker{border:0}
+  .sheet{padding:28px 36px}
+  .cap{left:48px;bottom:48px;right:160px}.cap h1{font-size:64px}.cap p{font-size:16px}
+  .rail{width:460px;justify-content:center}.seal{right:auto;left:-55px;top:auto;bottom:calc(50% + 160px);width:110px;height:110px}
+  #confirmed{flex-direction:row}
+  .wall{flex:1;height:100%}
+  .row img{height:calc(50vh - 4px)}
+  .cbody{width:480px;flex:0 0 480px;margin:0;justify-content:center;padding:40px}
+  .cta2{margin-top:10px}
+  .drawer{left:auto;width:480px;height:100dvh;border-radius:0}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= LANDING ================= -->
+<main id="landing" class="view" aria-label="Free roof inspection">
+  <section class="stage" id="stage">
+    <div class="slide on" style="--o:50% 45%"><img src="/free-inspection/img/hero-finished.webp" alt="Completed American Master Roofing shingle roof on a brick Houston home"></div>
+    <div class="slide" style="--o:50% 45%"><img src="/free-inspection/img/hero-progress.webp" alt="Drone view of new underlayment going on during an American Master Roofing replacement"></div>
+    <div class="slide" style="--o:50% 40%"><img src="/free-inspection/img/hero-crew.webp" alt="Drone view of the American Master Roofing crew installing shingles"></div>
+
+    <div class="bars" id="bars"><i class="on"><b></b></i><i><b></b></i><i><b></b></i></div>
+    <div class="top">
+      <div class="logo"><img src="/free-inspection/img/logo.png" alt="American Master Roofing"></div>
+      <a class="call" href="tel:+13466803564" aria-label="Call (346) 680-3564">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg>
+        (346) 680-3564
+      </a>
+    </div>
+    <button class="tap l" aria-label="Previous photo"></button>
+    <button class="tap r" aria-label="Next photo"></button>
+
+    <div class="cap">
+      <div class="chip"><span class="dot"></span><span id="capTxt">The result · Finished roof</span></div>
+      <h1>Know what's on your roof. <em><span>Free.</span></em></h1>
+      <p>Every finding photographed. A straight answer.</p>
+    </div>
+
+</section>
+
+  <div class="rail">
+    <div class="seal" aria-label="Roofing Houston since 1999">
+      <svg class="ring" viewBox="0 0 100 100"><defs><path id="cp" d="M50 50 m-38 0 a38 38 0 1 1 76 0 a38 38 0 1 1 -76 0"/></defs>
+        <text font-size="9.2" font-weight="800" letter-spacing="2.1" fill="#fff" font-family="Archivo, Arial, sans-serif"><textPath href="#cp">HOUSTON SINCE 1999 • 1,500+ ROOFS •</textPath></text></svg>
+      <div class="c"><b>25+</b><small>YEARS</small></div>
+    </div>
+      <div class="ticker" aria-label="Credentials">
+      <div class="track" id="track"></div>
+    </div>
+    <form class="sheet" id="leadForm" novalidate>
+      <input type="text" name="company" id="company" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+      <p class="formerr" id="formErr" role="alert" hidden></p>
+      <h2><span class="faces"><img src="/free-inspection/img/p2.webp" alt=""><img src="/free-inspection/img/n6.webp" alt=""><img src="/free-inspection/img/p1.webp" alt=""></span><span><b>Free inspection</b> · 30 seconds</span></h2>
+      <div class="f">
+        <input id="name" name="name" autocomplete="name" placeholder=" " required enterkeyhint="next">
+        <label for="name">Full name</label>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+      </div>
+      <div class="f">
+        <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder=" " required enterkeyhint="next">
+        <label for="phone">Mobile phone</label>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
+      </div>
+      <div class="f">
+        <input id="addr" name="address" autocomplete="address-line1" placeholder=" " required enterkeyhint="next">
+        <label for="addr">Street address</label>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11 12 3l9 8"/><path d="M5 10v10h14V10"/></svg>
+      </div>
+      <div class="pair">
+        <div class="f">
+          <input id="city" name="city" autocomplete="address-level2" placeholder=" " required enterkeyhint="next">
+          <label for="city">City</label>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.3-7-12a7 7 0 0 1 14 0c0 5.7-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        </div>
+        <div class="f zip">
+          <input id="zip" name="postal_code" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder=" " required enterkeyhint="go">
+          <label for="zip">ZIP</label>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+        </div>
+      </div>
+      <button class="cta" id="submitBtn" type="submit">
+        <span class="lbl">Get my free inspection</span>
+        <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        <span class="spin"></span>
+      </button>
+      <div class="micro">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>No obligation</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>Inspector in 24 hrs</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>No spam</span>
+      </div>
+    </form>
+  </div>
+</main>
+
+<!-- ================= CONFIRMATION ================= -->
+<main id="confirmed" class="view" hidden aria-label="Request received">
+  <section class="wall" aria-hidden="true">
+    <div class="rows">
+      <div class="row" id="rowA"></div>
+      <div class="row rev" id="rowB"></div>
+    </div>
+    <div class="ctop">
+      <div class="logo"><img src="/free-inspection/img/logo.png" alt="American Master Roofing"></div>
+      <div class="ok-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>Request received</div>
+    </div>
+  </section>
+
+  <section class="cbody">
+    <div class="steps in" style="animation-delay:.05s"><div class="d">✓ Request</div><div class="a">Pick a time</div><div>Inspection</div></div>
+    <h1 class="hello in" style="animation-delay:.12s">You're in, <span class="nm" id="nm">neighbor</span>.</h1>
+    <p class="sub in" style="animation-delay:.2s">We'll call you shortly. <b>Skip the wait</b> — choose your inspection time now and we'll take <b>$1,000 off</b> your roof.</p>
+
+    <div class="ticket in" style="animation-delay:.3s" id="ticket">
+      <div class="l">
+        <div class="tk-k">Self-booking bonus</div>
+        <div class="tk-amt"><sup>$</sup>1,000<span class="off">OFF</span></div>
+        <div class="tk-d">Your roof replacement</div>
+        <div class="tk-meta"><span>For <b id="tkName">You</b></span><span>Code <b id="tkCode">AMR-0000</b></span></div>
+      </div>
+      <div class="r">
+        <small>Held for</small>
+        <div class="cd" id="cd">48:00:00</div>
+        <div class="cd2" id="cdDate">Book by —</div>
+      </div>
+      <span class="notch t"></span><span class="notch b"></span>
+      <canvas id="scratch"></canvas>
+      <div class="hint" id="hint"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V10h.5V3.5a1.5 1.5 0 0 1 3 0V10h.5V5a1.5 1.5 0 0 1 3 0v9c0 4-3 7-7 7h-.5a6 6 0 0 1-5-2.7L3.2 14a1.5 1.5 0 0 1 2.3-1.9L9 15z"/></svg>Scratch to unlock</div>
+    </div>
+
+    <div class="gets in" style="animation-delay:.36s">
+      <div><i><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg></i><span><b>Photo report</b> of every finding on your roof</span></div>
+      <div><i><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M4 12h16M4 6h10M4 18h7"/></svg></i><span><b>A straight answer</b> — repair, replace, or leave it</span></div>
+      <div><i><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/></svg></i><span><b>Insurance &amp; financing</b> walked through on site</span></div>
+    </div>
+    <div class="cta2 in" style="animation-delay:.42s">
+      <button class="cta" id="bookBtn" type="button">
+        <span class="lbl">Pick my time · Lock in $1,000</span>
+        <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+      <div class="alt"><span>Takes about 20 seconds</span><a href="tel:+13466803564">Or call (346) 680-3564</a></div>
+      <p class="fine">Applies to a full roof replacement contract signed from a self-booked inspection. One per household. Terms subject to final confirmation.</p>
+    </div>
+  </section>
+</main>
+
+<!-- booking drawer -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Book your inspection" aria-hidden="true">
+  <div class="dh">
+    <div class="grab"></div>
+    <button class="x" id="closeBook" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <div class="applied">
+      <div class="badge">$1,000</div>
+      <div><b>Discount applied to this booking</b><small id="appliedSub">Code AMR-0000 · Free inspection</small></div>
+    </div>
+  </div>
+  <div class="db" id="db"></div>
+</aside>
+
+<div class="wipe" id="wipe"><img src="/free-inspection/img/logo.png" alt=""></div>
+<canvas id="fx"></canvas>
+
+<script>
+/* ===================== CONFIG (handoff) ===================== */
+const CONFIG = {
+  // POST the lead here (GHL inbound webhook / Zapier / your API). Empty = skip (preview).
+  LEAD_WEBHOOK_URL: '/api/lead',
+  BOOKING_URL: 'https://api.leadconnectorhq.com/widget/booking/hVG6Srpl2MIyc8x4I4H3',
+  BOOKING_SCRIPT: 'https://link.msgsndr.com/js/form_embed.js',
+  OFFER_HOURS: 48,
+  PHONE: '(346) 680-3564'
+};
+// The real GHL calendar can't render inside the Claude preview sandbox (third-party iframes are blocked),
+// so the preview shows a stand-in picker. On any real domain the live embed loads.
+const LIVE_EMBED = !/claude|anthropic|claudeusercontent/i.test(location.hostname);
+const THANKS_PATH = '/free-inspection/thank-you';
+
+/* ===================== helpers ===================== */
+const $ = s => document.querySelector(s);
+const store = {
+  get(k){ try{ return JSON.parse(sessionStorage.getItem(k)) }catch(e){ return null } },
+  set(k,v){ try{ sessionStorage.setItem(k, JSON.stringify(v)) }catch(e){} }
+};
+const ICON = {
+  star:'<svg viewBox="0 0 24 24" fill="#f5c542"><path d="m12 2 3 6.6 7.2.8-5.4 4.9 1.5 7.1L12 17.8 5.7 21.4l1.5-7.1L1.8 9.4 9 8.6z"/></svg>',
+  shield:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>',
+  home:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M3 11 12 3l9 8"/><path d="M5 10v10h14V10"/></svg>',
+  dot:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" fill="#e30613"/></svg>'
+};
+
+/* ===================== ticker ===================== */
+const creds = [
+  [ICON.star,'<span class="stars">★★★★★</span> Google Reviews'],
+  [ICON.shield,'BBB A+ Accredited'],
+  [ICON.dot,'Owens Corning Preferred'],
+  [ICON.home,'1,500+ Houston roofs'],
+  [ICON.shield,'Insured &amp; bonded'],
+  [ICON.dot,'Roofing Houston since 1999']
+];
+const one = creds.map(c=>`<span>${c[0]}${c[1]}</span>`).join('');
+$('#track').innerHTML = one + one;
+
+/* ===================== hero story ===================== */
+const slides = [...document.querySelectorAll('.slide')];
+const bars = [...document.querySelectorAll('#bars i')];
+const caps = ['The result · Finished roof','The process · Full tear-off & underlayment','The crew · On site start to finish'];
+let si = 0, timer;
+function show(n){
+  si = (n + slides.length) % slides.length;
+  slides.forEach((s,i)=>s.classList.toggle('on', i===si));
+  bars.forEach((b,i)=>{ b.className = i<si ? 'done' : (i===si ? 'on' : ''); void b.offsetWidth; });
+  $('#capTxt').textContent = caps[si];
+  clearTimeout(timer); timer = setTimeout(()=>show(si+1), 6000);
+}
+document.querySelector('.tap.l').onclick = ()=>show(si-1);
+document.querySelector('.tap.r').onclick = ()=>show(si+1);
+show(0);
+
+/* ===================== form ===================== */
+const phone = $('#phone');
+phone.addEventListener('input', ()=>{
+  let d = phone.value.replace(/\D/g,'').replace(/^1/,'').slice(0,10);
+  phone.value = d.length>6 ? `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}` : d.length>3 ? `(${d.slice(0,3)}) ${d.slice(3)}` : d;
+});
+const rules = {
+  name: v => v.trim().length >= 2,
+  phone: v => v.replace(/\D/g,'').length === 10,
+  addr: v => v.trim().length >= 4,
+  city: v => v.trim().length >= 2,
+  zip: v => /^\d{5}$/.test(v.trim())
+};
+for (const id in rules){
+  const el = $('#'+id);
+  el.addEventListener('input', ()=>{ el.parentNode.classList.toggle('ok', rules[id](el.value)); el.parentNode.classList.remove('err'); });
+  el.addEventListener('focus', ()=>document.body.classList.add('typing'));
+  el.addEventListener('blur', ()=>setTimeout(()=>{ if(!document.activeElement.matches('input')) document.body.classList.remove('typing') },50));
+}
+$('#name').addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); phone.focus(); } });
+phone.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); $('#addr').focus(); } });
+$('#addr').addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); $('#city').focus(); } });
+$('#city').addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); $('#zip').focus(); } });
+$('#zip').addEventListener('input', e=>{ e.target.value=e.target.value.replace(/\D/g,'').slice(0,5); });
+
+$('#leadForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  let bad = null;
+  for (const id in rules){ const el=$('#'+id); if(!rules[id](el.value)){ el.parentNode.classList.remove('err'); void el.offsetWidth; el.parentNode.classList.add('err'); bad = bad || el; } }
+  if (bad){ bad.focus(); return; }
+  const btn = $('#submitBtn'); btn.classList.add('busy');
+  const full = $('#name').value.trim().replace(/\s+/g,' ');
+  const lead = {
+    name: full, first_name: full.split(' ')[0], last_name: full.split(' ').slice(1).join(' '),
+    phone: $('#phone').value, address: $('#addr').value.trim(), city: $('#city').value.trim(), postal_code: $('#zip').value.trim(), state: 'TX',
+    source: 'mobile-inspection-funnel-v2', ts: Date.now(),
+    code: 'AMR-' + Math.random().toString(36).slice(2,6).toUpperCase(),
+    utm: Object.fromEntries(new URLSearchParams(location.search))
+  };
+  const err = $('#formErr'); err.hidden = true;
+  if (CONFIG.LEAD_WEBHOOK_URL){
+    try{
+      const res = await fetch(CONFIG.LEAD_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+        funnel:'mobile-v2', company:$('#company').value,
+        first:lead.first_name, last:lead.last_name, phone:lead.phone,
+        address:lead.address, city:lead.city, zip:lead.postal_code,
+        concern:'', timing:'', offers:[], selfBookCode: lead.code,
+        utm: lead.utm
+      })});
+      const data = await res.json().catch(()=>({}));
+      if (!res.ok || data.ok === false) throw new Error(data.error || 'Something went wrong sending your request.');
+    }catch(ex){
+      btn.classList.remove('busy');
+      err.innerHTML = (ex.message || 'Something went wrong.') + ' Or call <a href="tel:+13466803564">(346) 680-3564</a>.';
+      err.hidden = false; return;
+    }
+  } else { await new Promise(r=>setTimeout(r,650)); }
+  store.set('amr_lead', lead);
+  document.activeElement && document.activeElement.blur();
+  const w = $('#wipe'); w.classList.remove('go'); void w.offsetWidth; w.classList.add('go');
+  setTimeout(()=>{
+    if (LIVE_EMBED) { location.href = THANKS_PATH + location.search; }
+    else { location.hash = 'confirmed'; route(); btn.classList.remove('busy'); }
+  }, 480);
+});
+
+/* ===================== router ===================== */
+function route(){
+  const conf = location.hash === '#confirmed' || /\/thank-you\/?$/.test(location.pathname);
+  $('#landing').hidden = conf; $('#confirmed').hidden = !conf;
+  if (conf) initConfirm();
+}
+window.addEventListener('hashchange', route);
+
+/* ===================== confirmation ===================== */
+const W = ['n1','n2','w3','n3','n7','w1','n4','n5'], P = ['n6','p1','p3','p2','n8','p6','p5','p7'];
+const portrait = new Set(['n2','n3','n4','n5','n6','n8','p1','p2','p4','p5','p6','p7','p8']);
+const tile = n => `<img src="/free-inspection/img/${n}.webp" class="${portrait.has(n)?'p':''}" alt="" loading="eager" decoding="async">`;
+const mix = (a,b) => a.flatMap((x,i)=>[x,b[i]]);
+let confReady = false, cdTimer;
+function initConfirm(){
+  const lead = store.get('amr_lead') || {first_name:'neighbor', code:'AMR-'+Math.random().toString(36).slice(2,6).toUpperCase(), ts:Date.now(), name:'', phone:''};
+  $('#nm').textContent = lead.first_name || 'neighbor';
+  $('#tkName').textContent = lead.first_name || 'You';
+  $('#tkCode').textContent = lead.code;
+  $('#appliedSub').textContent = `Code ${lead.code} · Free inspection`;
+  const exp = lead.ts + CONFIG.OFFER_HOURS*3600e3;
+  $('#cdDate').textContent = 'Book by ' + new Date(exp).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+  clearInterval(cdTimer);
+  const tickCd = ()=>{ const s=Math.max(0,Math.floor((exp-Date.now())/1000)); $('#cd').textContent=[s/3600|0,(s%3600)/60|0,s%60].map(x=>String(x).padStart(2,'0')).join(':'); };
+  tickCd(); cdTimer = setInterval(tickCd,1000);
+  if (confReady) return; confReady = true;
+  const a = mix(W.slice(0,4),P.slice(0,4)), b = mix(P.slice(4),W.slice(4));
+  $('#rowA').innerHTML = [...a,...a].map(tile).join('');
+  $('#rowB').innerHTML = [...b,...b].map(tile).join('');
+  (document.fonts?document.fonts.ready:Promise.resolve()).then(()=>setTimeout(initScratch,350));
+  prepBooking(lead);
+}
+
+/* ---------- scratch-off ---------- */
+let revealed = false;
+function initScratch(){
+  const cv = $('#scratch'), tk = $('#ticket'), r = tk.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio||1);
+  cv.width = r.width*dpr; cv.height = r.height*dpr; cv.style.width='100%'; cv.style.height='100%';
+  const c = cv.getContext('2d'); c.scale(dpr,dpr);
+  const g = c.createLinearGradient(0,0,r.width,r.height);
+  g.addColorStop(0,'#c9ced9'); g.addColorStop(.35,'#f4f6fa'); g.addColorStop(.5,'#b4bac8'); g.addColorStop(.75,'#eef0f5'); g.addColorStop(1,'#aab1c1');
+  c.fillStyle = g; c.fillRect(0,0,r.width,r.height);
+  c.globalAlpha=.08; for(let i=0;i<700;i++){ c.fillStyle=Math.random()>.5?'#000':'#fff'; c.fillRect(Math.random()*r.width,Math.random()*r.height,1.5,1.5);} c.globalAlpha=1;
+  c.fillStyle='#1b2a5b'; c.textAlign='center';
+  c.font='900 24px Archivo, Arial, sans-serif'; c.fillText('YOUR BONUS IS INSIDE', r.width/2, r.height/2 - 4);
+  c.font='700 12px Archivo, Arial, sans-serif'; c.fillStyle='#4a5273'; c.fillText('Reserved for self-booked inspections', r.width/2, r.height/2 + 18);
+  c.globalCompositeOperation = 'destination-out';
+  let down=false, last=null, moves=0;
+  const pt = e => { const b=cv.getBoundingClientRect(); return {x:e.clientX-b.left, y:e.clientY-b.top}; };
+  const draw = p => { c.lineWidth=46; c.lineCap='round'; c.beginPath(); c.moveTo((last||p).x,(last||p).y); c.lineTo(p.x,p.y); c.stroke(); last=p; };
+  cv.addEventListener('pointerdown', e=>{ down=true; last=null; draw(pt(e)); $('#hint').style.opacity=0; cv.setPointerCapture(e.pointerId); });
+  cv.addEventListener('pointermove', e=>{ if(!down) return; draw(pt(e)); if(++moves%8===0) check(); });
+  const up = ()=>{ down=false; last=null; check(true); };
+  cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
+  function check(force){
+    if (revealed) return;
+    const d = c.getImageData(0,0,cv.width,cv.height).data; let clear=0, n=0;
+    for(let i=3;i<d.length;i+=4*40){ n++; if(d[i]<40) clear++; }
+    if (clear/n > .42) reveal();
+  }
+}
+function reveal(){
+  if (revealed) return; revealed = true;
+  $('#scratch').classList.add('gone'); $('#hint').style.opacity=0;
+  const r = $('#ticket').getBoundingClientRect();
+  confetti(r.left + r.width*.4, r.top + r.height/2);
+  $('#bookBtn').classList.add('pulse');
+  if (navigator.vibrate) try{ navigator.vibrate([20,40,20]) }catch(e){}
+}
+
+/* ---------- confetti ---------- */
+function confetti(x,y){
+  const cv=$('#fx'), c=cv.getContext('2d'), dpr=Math.min(2,devicePixelRatio||1);
+  cv.width=innerWidth*dpr; cv.height=innerHeight*dpr; c.scale(dpr,dpr);
+  const cols=['#e30613','#ffffff','#1b2a5b','#f5c542','#ff5a64'];
+  const ps=[...Array(130)].map(()=>({x,y,vx:(Math.random()-.5)*13,vy:-Math.random()*13-3,r:Math.random()*Math.PI,vr:(Math.random()-.5)*.4,w:5+Math.random()*6,h:8+Math.random()*8,c:cols[Math.random()*cols.length|0],life:0}));
+  (function f(){
+    c.clearRect(0,0,innerWidth,innerHeight); let alive=0;
+    for(const p of ps){ p.life++; p.vy+=.38; p.vx*=.985; p.x+=p.vx; p.y+=p.vy; p.r+=p.vr;
+      if(p.y<innerHeight+30){ alive++; c.save(); c.translate(p.x,p.y); c.rotate(p.r); c.globalAlpha=Math.max(0,1-p.life/140); c.fillStyle=p.c; c.fillRect(-p.w/2,-p.h/2,p.w,p.h*Math.abs(Math.cos(p.life/6))); c.restore(); } }
+    if(alive) requestAnimationFrame(f); else c.clearRect(0,0,innerWidth,innerHeight);
+  })();
+}
+
+/* ---------- booking ---------- */
+function prepBooking(lead){
+  const db = $('#db');
+  if (LIVE_EMBED){
+    const q = new URLSearchParams({first_name:lead.first_name||'', last_name:lead.last_name||'', phone:(lead.phone||'').replace(/\D/g,''), address:lead.address||'', city:lead.city||'', state:'TX', postal_code:lead.postal_code||''});
+    db.innerHTML = `<iframe src="${CONFIG.BOOKING_URL}?${q}" allow="payment" scrolling="no" id="hVG6Srpl2MIyc8x4I4H3_${Date.now()}" title="Book your free roof inspection"></iframe>`;
+    const s = document.createElement('script'); s.src = CONFIG.BOOKING_SCRIPT; s.async = true; document.body.appendChild(s);
+  } else {
+    renderMock(lead);
+  }
+}
+function openBook(){ if(!revealed) reveal(); document.body.classList.add('book'); $('#drawer').setAttribute('aria-hidden','false'); }
+function closeBook(){ document.body.classList.remove('book'); $('#drawer').setAttribute('aria-hidden','true'); }
+$('#bookBtn').onclick = openBook; $('#closeBook').onclick = closeBook; $('#scrim').onclick = closeBook;
+// swipe down to close
+(()=>{ let y0=null; const dh=document.querySelector('.dh');
+  dh.addEventListener('touchstart',e=>y0=e.touches[0].clientY,{passive:true});
+  dh.addEventListener('touchend',e=>{ if(y0!==null && e.changedTouches[0].clientY-y0>60) closeBook(); y0=null; });
+})();
+
+/* preview-only stand-in for the GHL calendar */
+function renderMock(lead){
+  const db = $('#db'); const days=[]; const d=new Date(); d.setHours(0,0,0,0);
+  while(days.length<8){ d.setDate(d.getDate()+1); if(d.getDay()!==0) days.push(new Date(d)); }
+  const times=['8:00 AM','9:00 AM','10:00 AM','11:00 AM','12:00 PM','1:00 PM','2:00 PM','3:00 PM','4:00 PM','5:00 PM','6:00 PM','7:00 PM'];
+  let di=0, ti=null;
+  const paint=()=>{
+    const taken = i => ((i*7 + di*3) % 5)===0;
+    db.innerHTML = `<div class="mock">
+      <div class="t">Free roof inspection</div>
+      <div class="s">45 min · On-site at ${lead.address ? (lead.address+', '+(lead.city||'')+' '+(lead.postal_code||'')).replace(/</g,'') : 'your home'}</div>
+      <div class="days">${days.map((x,i)=>`<button class="day ${i===di?'on':''}" data-d="${i}"><small>${x.toLocaleDateString('en-US',{weekday:'short'})}</small><b>${x.getDate()}</b></button>`).join('')}</div>
+      <div class="slots">${times.map((t,i)=>`<button class="slot ${i===ti?'on':''}" data-t="${i}" ${taken(i)?'disabled':''}>${t}</button>`).join('')}</div>
+      <button class="cta go" id="confirmSlot" ${ti===null?'disabled style="opacity:.45"':''}><span class="lbl">${ti===null?'Choose a time':'Confirm · '+times[ti]}</span></button>
+      <p class="note">Preview stand-in. The live GoHighLevel calendar loads here on your domain.</p></div>`;
+    db.querySelectorAll('.day').forEach(b=>b.onclick=()=>{di=+b.dataset.d; ti=null; paint();});
+    db.querySelectorAll('.slot').forEach(b=>b.onclick=()=>{ti=+b.dataset.t; paint();});
+    const go=$('#confirmSlot'); if(ti!==null) go.onclick=()=>{
+      const when = days[di].toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'})+' · '+times[ti];
+      db.innerHTML = `<div class="booked"><div class="big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></div>
+        <h3>You're booked${lead.first_name&&lead.first_name!=='neighbor'?', '+lead.first_name.replace(/</g,''):''}</h3>
+        <p>Your inspector will text before arrival. <b>$1,000 off</b> is locked to this appointment.</p>
+        <div class="when">${when}</div></div>`;
+      const r=db.getBoundingClientRect(); confetti(r.left+r.width/2, r.top+120);
+    };
+  };
+  paint();
+}
+
+route();
+</script>
+</body>
+</html>

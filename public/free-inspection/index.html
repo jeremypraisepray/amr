@@ -159,7 +159,7 @@ body.typing .seal{transform:scale(.72);transform-origin:100% 0}
 .tk-meta b{color:var(--navy)}
 .ticket .r small{font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;opacity:.9}
 .ticket .r .cd{font-size:19px;font-variant-numeric:tabular-nums;font-weight:900;font-stretch:70%;line-height:1;margin:3px 0}
-.ticket .r .cd2{font-size:10px;font-weight:700;opacity:.9}
+.ticket .r .cd2{font-size:10px;font-weight:700;opacity:.9;white-space:nowrap}
 #scratch{position:absolute;inset:0;z-index:3;touch-action:none;cursor:grab;transition:opacity .6s}
 #scratch.gone{opacity:0;pointer-events:none}
 .hint{position:absolute;z-index:4;left:16px;bottom:10px;font-size:11px;font-weight:800;color:var(--navy);letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;gap:6px;pointer-events:none;transition:opacity .3s}
@@ -594,7 +594,7 @@ function initConfirm(){
   $('#tkCode').textContent = lead.code;
   $('#appliedSub').textContent = `Code ${lead.code} · Free inspection`;
   const exp = lead.ts + CONFIG.OFFER_HOURS*3600e3;
-  $('#cdDate').textContent = 'Book by ' + new Date(exp).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+  $('#cdDate').textContent = 'Book by ' + new Date(exp).toLocaleDateString('en-US',{weekday:'short',month:'numeric',day:'numeric'}).replace(',','');
   clearInterval(cdTimer);
   const tickCd = ()=>{ const s=Math.max(0,Math.floor((exp-Date.now())/1000)); $('#cd').textContent=[s/3600|0,(s%3600)/60|0,s%60].map(x=>String(x).padStart(2,'0')).join(':'); };
   tickCd(); cdTimer = setInterval(tickCd,1000);
